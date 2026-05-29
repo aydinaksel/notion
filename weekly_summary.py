@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generates a Slack-formatted weekly summary from the Platform Tasks Notion database."""
+"""Generates a weekly summary from the Platform Tasks Notion database as Markdown."""
 
 import json
 import subprocess
@@ -106,13 +106,23 @@ def main():
         {"property": "Status", "status": {"equals": "Next Set"}}
     )
 
-    print(f"*SCHEDULE THIS WEEK*\n{SCHEDULE_PLACEHOLDER}")
-    print(":blank:")
-    print(f"*LAST WEEK*\n{format_task_list(last_week_pages)}")
-    print(":blank:")
-    print(f"*THIS WEEK*\n{format_task_list(this_week_pages)}")
-    print(":blank:")
-    print(f"*NEXT WEEK*\n{format_task_list(next_week_pages)}")
+    output = (
+        f"*SCHEDULE THIS WEEK*\n{SCHEDULE_PLACEHOLDER}\n"
+        f":blank:\n"
+        f"*LAST WEEK*\n{format_task_list(last_week_pages)}\n"
+        f":blank:\n"
+        f"*THIS WEEK*\n{format_task_list(this_week_pages)}\n"
+        f":blank:\n"
+        f"*NEXT WEEK*\n{format_task_list(next_week_pages)}\n"
+    )
+
+    print(output)
+
+    week_label = this_week_start.date().isoformat()
+    filepath = f"weekly_summary_{week_label}.md"
+    with open(filepath, "w") as file:
+        file.write(output)
+    print(f"Written to {filepath}")
 
 
 if __name__ == "__main__":

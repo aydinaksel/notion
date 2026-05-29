@@ -24,6 +24,22 @@ Each task page has:
 - Statuses: `In Progress`, `Done`, `Next Set`, `Emergency`, `Ice Box`
 - Always set `Completed Date` when marking a task `Done`
 
+## Page icon
+
+Always set this icon on every page created or updated in this database:
+
+```json
+{
+  "type": "icon",
+  "icon": {
+    "name": "bell",
+    "color": "blue"
+  }
+}
+```
+
+This is a top-level field on the page object, not nested under `properties`.
+
 ## Writing style
 
 - Never use em dashes. Use periods or commas instead, or restructure the sentence.
