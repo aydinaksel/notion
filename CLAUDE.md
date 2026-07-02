@@ -29,13 +29,19 @@ Each task page has:
 
 ## ntn CLI recipes
 
+These commands are always run non-interactively (by Claude or an agent), never
+typed at a terminal. `ntn api` inspects stdin as a possible body source, so with a
+dangling piped stdin it blocks forever. Always give write commands an EOF: feed the
+body via stdin redirect, or append `</dev/null`.
+
 Query pages:
 
 ```sh
 ntn datasources query ab49c7cb-6a14-445e-9706-9ad4d0efb018 --limit 10 --json
 ```
 
-Create a page (use `ntn api /v1/pages -d '<json>'`):
+Create a page (feed the JSON body via stdin so the command gets an EOF, e.g.
+`ntn api /v1/pages < page.json`):
 
 ```json
 {
@@ -53,7 +59,7 @@ Create a page (use `ntn api /v1/pages -d '<json>'`):
 Update page body with markdown:
 
 ```sh
-ntn pages update <page-id> --content '## Do\n\n- [ ] Step one'
+ntn pages update <page-id> --content '## Do\n\n- [ ] Step one' </dev/null
 ```
 
 ## Your role
