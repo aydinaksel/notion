@@ -55,7 +55,7 @@
           };
         in
         {
-          default = pkgs.mkShell {
+          default = pkgs.mkShellNoCC {
             packages = [
               pkgs.python3
               ntn
