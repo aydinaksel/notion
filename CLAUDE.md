@@ -76,7 +76,7 @@ ntn pages update <page-id> --content '## Do\n\n- [ ] Step one' </dev/null
 
 ## Page icon
 
-Always set this icon on every page created or updated in this database:
+Always set this icon on every page created or updated in the Platform Tasks database:
 
 ```json
 {
@@ -89,6 +89,11 @@ Always set this icon on every page created or updated in this database:
 ```
 
 This is a top-level field on the page object, not nested under `properties`.
+
+The Operations Manual database uses different icons: standard pages get the white
+document icon (`{"name": "document", "color": "lightgray"}`) and `System = Snowflake`
+pages keep the blue `snowflake` icon. Never apply the bell there. See
+`operations-manual.md`.
 
 ## Writing style
 

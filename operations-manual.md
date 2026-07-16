@@ -55,4 +55,7 @@ not unwieldy.
 - Diagrams use Mermaid in a `mermaid` code block. A diagram shows topology and flow,
   not data that already lives in a table. Do not duplicate a list into a diagram; keep
   one source of truth.
-- Set the standard bell icon on every page, same as the Task database.
+- Standard pages use the white document icon: `{"type": "icon", "icon": {"name":
+  "document", "color": "lightgray"}}` (not the Task database's blue bell). Exception:
+  pages where `System = Snowflake` use the blue `snowflake` icon. Do not overwrite a
+  page's icon with the bell when editing.
