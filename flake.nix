@@ -28,7 +28,7 @@
         };
         x86_64-linux = {
           target = "x86_64-unknown-linux-musl";
-          hash = "sha256-a/7Eq/pS06yPFXUyHxHsX/qJb37YnrSq20vofN1FG/Q=";
+          hash = "sha256-7PatGyvtCJ2ydCnqjvvOvvWTt59HAC55eTayX/+8YaE=";
         };
         aarch64-linux = {
           target = "aarch64-unknown-linux-musl";
