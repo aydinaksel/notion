@@ -32,10 +32,11 @@ Each task page has:
 
 ## ntn CLI recipes
 
-These commands are always run non-interactively (by Claude or an agent), never
-typed at a terminal. `ntn api` inspects stdin as a possible body source, so with a
-dangling piped stdin it blocks forever. Always give write commands an EOF: feed the
-body via stdin redirect, or append `</dev/null`.
+`ntn` has two interfaces: `ntn pages` (Markdown, concise) for page bodies, and `ntn
+api` (raw JSON) for properties, icons, and surgical block edits. Auth is file-based,
+prefix commands with `NOTION_KEYRING=0`. Commands run non-interactively; `ntn api`
+reads stdin as a possible body, so give every write an EOF (stdin redirect or
+`</dev/null`) or it blocks forever.
 
 Query pages:
 
@@ -43,8 +44,8 @@ Query pages:
 ntn datasources query ab49c7cb-6a14-445e-9706-9ad4d0efb018 --limit 10 --json
 ```
 
-Create a page (feed the JSON body via stdin so the command gets an EOF, e.g.
-`ntn api /v1/pages < page.json`):
+Create a page (properties + icon) via `ntn api`, feeding JSON on stdin
+(`ntn api /v1/pages < page.json`):
 
 ```json
 {
@@ -59,11 +60,31 @@ Create a page (feed the JSON body via stdin so the command gets an EOF, e.g.
 }
 ```
 
-Update page body with markdown:
+Then write the body as Markdown (`edit` replaces the whole body). Read it back with
+`ntn pages get <page-id>` (properties come back as frontmatter):
 
 ```sh
-ntn pages update <page-id> --content '## Do\n\n- [ ] Step one' </dev/null
+ntn pages edit <page-id> --content '## Do\n\n- [ ] Step one' </dev/null
 ```
+
+Markdown notes:
+
+- Supported: `##`/`###` headings, bold/italic/strike/`` `code` ``, links, bulleted and
+  numbered lists (nesting kept), `- [ ]`/`- [x]` to-dos, `>` quotes, fenced code with
+  language, `---`, GFM tables. Don't lead a body with `# H1`, it is taken as the title.
+- Dropped to text or unavailable: inline math, footnotes, synced blocks, callouts,
+  toggles, columns, colors. Use `ntn api` raw blocks for those.
+- Properties, dates, people, relations, and the icon are never set via Markdown. Patch
+  them with `ntn api /v1/pages/<page-id> -X PATCH`.
+
+Surgical block edits use raw blocks via `ntn api`. Insert at a position (current API
+version) by PATCHing `/v1/blocks/<parent-id>/children`:
+
+```json
+{"position": {"type": "after_block", "after_block": {"id": "<block-id>"}}, "children": []}
+```
+
+Delete a block with `ntn api /v1/blocks/<block-id> -X DELETE </dev/null`.
 
 ## Your role
 
