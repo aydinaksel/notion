@@ -2,7 +2,7 @@
   description = "Notion weekly summary and TLDR scripts";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
   };
 
   outputs =
@@ -16,11 +16,11 @@
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
 
-      ntnVersion = "0.18.0";
+      ntnVersion = "0.19.0";
       ntnSources = {
         aarch64-darwin = {
           target = "aarch64-apple-darwin";
-          hash = "sha256-VZz3UBU1/FUps3pNVbJvHqa5WrUm9nzE8LBNudeC1og=";
+          hash = "sha256-t0SGOJLJc5MW5YkXF30P5B3Ow+Ds4FwWO51NnMJSPng=";
         };
         x86_64-darwin = {
           target = "x86_64-apple-darwin";
