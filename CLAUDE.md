@@ -21,7 +21,7 @@ schema, scope, and page conventions live in `operations-manual.md`.
 | TLDR | rich_text | Always required. One-liner for the Slack update. End with `@Requestor`; drop only the `@Requestor` suffix if self-initiated |
 | Completed Date | date | Set when marking `Done` |
 | Hours Left To Do | number | |
-| Requested By | people | |
+| Requested By | people | Leave unset unless given an explicit user ID. Never try to look up users, `GET /v1/users` is 403 (personal tokens can't list users). Put the requestor's name in the TLDR instead |
 
 ## Page structure
 
