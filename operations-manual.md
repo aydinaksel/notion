@@ -17,17 +17,21 @@ deliberately lean to avoid metadata bloat.
 | Name | title | The page subject |
 | System | select | The system the page is about (e.g. `Stitch`, `Salesforce`) |
 | Touches | multi-select | Other systems it integrates with. Answers "what breaks if X changes?" |
-| Entry Type | select | `Overview`, `Runbook`, `Reference`, or `Object` |
+| Entry Type | select | `Overview`, `Runbook`, `Reference`, or an object type (`Custom Object`, `Custom Setting`, `Standard Object`). The object types are set by the usage refresh |
 | Reads | relation | Objects this entry reads from. Backlink: `Read by` |
 | Writes | relation | Objects this entry writes to. Backlink: `Written by` |
+| Records | number | Row count in the org. Point-in-time snapshot, maintained by the usage refresh |
+| Last Write | date | `MAX(SystemModstamp)` in the org, i.e. when the object last changed. Snapshot |
+| Usage Checked | date | When `Records` and `Last Write` were last refreshed |
 
 `Entry Type = Reference` pages are a reusable concept glossary. Other entries link to
 the same Reference page rather than repeating the explanation.
 
-## Object lineage
+## Object Lineage
 
-`Entry Type = Object` pages represent a single data object (e.g. a Salesforce object
-like `Property__c`). They are the nodes for tracking data lineage.
+Object pages (`Entry Type` of `Custom Object`, `Custom Setting`, or `Standard Object`)
+represent a single data object (e.g. a Salesforce object like `Property__c`). They are
+the nodes for tracking data lineage.
 
 An integration or automation declares its edges once via the `Reads` and `Writes`
 relations. Each object page then shows, automatically via backlinks, every system that
@@ -35,12 +39,40 @@ reads it (`Read by`) and every system that writes it (`Written by`). Declare the
 only on the integration side; never restate readers/writers on the object page, the
 backlinks keep it in sync.
 
+## Object Usage Refresh
+
+`refresh_object_usage.py` (in the repo root) keeps the `Entry Type` (set to
+`Custom Object`, `Custom Setting`, or `Standard Object`), `Records`, `Last Write`, and
+`Usage Checked` properties current on the `System = Salesforce` object pages. It reads
+the Salesforce production org (through the `salesforce` repo's nix flake) and writes the
+numbers onto the matching Object pages.
+
+It covers every custom object and custom setting (`*__c`) plus the standard
+objects worth tracking: those carrying custom fields, those that already have a
+page, and a license-relevant set (`Task`, `Event`, `Campaign`, `Order`, `Quote`).
+It does not touch the ~1300 internal standard objects. Objects that cannot be
+counted (history objects such as `CaseHistory`) are stamped with their type but
+left without a record count rather than a misleading zero.
+
+```sh
+python3 refresh_object_usage.py                  # write to Notion
+python3 refresh_object_usage.py --dry-run        # preview, no writes
+python3 refresh_object_usage.py --create-missing # also create pages for objects that lack one
+```
+
+`--create-missing` creates pages only for real objects (custom object or
+standard). Custom settings are never auto-created (they are governed separately
+from the custom-object allowance); they are only reported. Override
+`SALESFORCE_REPO` or `SALESFORCE_ORG` via environment if the repo lives elsewhere
+or a different org alias is needed (default: `~/Projects/salesforce`,
+`production`). Record counts are snapshots, never treat them as live.
+
 ## Scope
 
 Document only what is relevant to the system being covered. For example, Stitch runs
 many integrations, but the Operations Manual only covers the Salesforce-related ones.
 
-## Page conventions
+## Page Conventions
 
 Pages follow a markdown-documentation style: concise, sectioned with `##` headings,
 not unwieldy.
