@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S nix develop --command python3
 """Refresh Salesforce object usage onto Operations Manual Object pages.
 
 Pulls record count, last write time, and object type from the Salesforce
@@ -17,7 +17,7 @@ standard) that lack one. Custom settings are never auto-created; they are
 governed separately from the custom-object allowance and only reported.
 
 Usage:
-    python3 refresh_object_usage.py [--dry-run] [--create-missing]
+    ./refresh_object_usage.py [--dry-run] [--create-missing]
 
 Environment:
     SALESFORCE_REPO   Path to the salesforce DX repo (default: ~/Projects/salesforce)

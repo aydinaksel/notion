@@ -56,9 +56,9 @@ cannot be counted (history objects such as `CaseHistory`) are stamped with their
 type but left without a record count rather than a misleading zero.
 
 ```sh
-python3 refresh_object_usage.py                  # write to Notion
-python3 refresh_object_usage.py --dry-run        # preview, no writes
-python3 refresh_object_usage.py --create-missing # also create pages for objects that lack one
+./refresh_object_usage.py                  # write to Notion
+./refresh_object_usage.py --dry-run        # preview, no writes
+./refresh_object_usage.py --create-missing # also create pages for objects that lack one
 ```
 
 `--create-missing` creates pages only for real objects (custom object or

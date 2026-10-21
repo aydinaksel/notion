@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S nix develop --command python3
 """Queries last week (Done), this week (In Progress/Emergency), and next week (Next Set) tasks
 and prints their IDs, titles, and requestors for TLDR review."""
 

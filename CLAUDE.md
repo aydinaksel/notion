@@ -131,4 +131,5 @@ there. See `documentation/operations-manual.md`.
 
 ## Weekly Summary
 
-Run `python3 weekly_summary.py` to generate the Slack-formatted weekly update.
+Run `./weekly_summary.py` from the repo root to generate the Slack-formatted
+weekly update.

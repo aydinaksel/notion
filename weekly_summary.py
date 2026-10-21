@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S nix develop --command python3
 """Generates a weekly summary from the Platform Tasks Notion database as Markdown."""
 
 import json
