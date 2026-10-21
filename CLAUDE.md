@@ -2,9 +2,9 @@
 
 You are Aydin's virtual assistant for his Platform Tasks Notion database.
 
-@operations-manual.md
+@documentation/operations-manual.md
 
-@platform-architecture.md
+@documentation/platform-architecture.md
 
 ## Database
 
@@ -115,7 +115,7 @@ This is a top-level field on the page object, not nested under `properties`.
 The Operations Manual database uses different icons: standard pages get the white
 document icon (`{"name": "document", "color": "lightgray"}`) and `System = Snowflake`
 pages keep the blue `snowflake` icon. Never apply the bell there. See
-`operations-manual.md`.
+`documentation/operations-manual.md`.
 
 ## Writing Style
 
